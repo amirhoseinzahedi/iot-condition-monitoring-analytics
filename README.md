@@ -29,6 +29,28 @@ This project demonstrates an end-to-end workflow to:
 The project focuses on the complete analytics workflow rather than
 treating anomaly detection as an isolated machine learning task.
 
+## Dashboard Preview
+
+The Power BI dashboard presents the monitoring system from three complementary perspectives.
+
+### Executive Overview
+
+Provides a high-level view of detected anomalies, model performance, detection trends, and sensor/device breakdowns.
+
+![Executive Overview](dashboard/screenshots/executive-overview.png)
+
+### Operational Analysis
+
+Focuses on where and when anomalies are occurring across devices, sensors, and locations.
+
+![Operational Analysis](dashboard/screenshots/operational-analysis.png)
+
+### Sensor & Anomaly Analysis
+
+Examines anomaly types, sensor-level model effectiveness, the confusion matrix, and detection gaps.
+
+![Sensor & Anomaly Analysis](dashboard/screenshots/sensor-anomaly-analysis.png)
+
 ## Dataset
 
 The project uses a synthetic IoT monitoring dataset.
