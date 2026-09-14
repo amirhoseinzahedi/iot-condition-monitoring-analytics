@@ -225,10 +225,13 @@ ground-truth anomaly dataset.
 |---|---:|
 | True Positives | 901 |
 | False Positives | 13 |
-| False Negatives | 789 |
+| False Negatives | 788 |
+| True Negatives | 2,158,298 |
 | Precision | 98.58% |
-| Recall | 53.31% |
-| F1 Score | 69.16% |
+| Recall | 53.35% |
+| F1 Score | 69.23% |
+
+> **Evaluation note:** The ground-truth file contains 1,690 anomaly records. Because some records refer to the same `(timestamp, device_id, sensor)` combination, these correspond to 1,689 unique evaluation points. Model evaluation therefore uses unique evaluation keys rather than raw ground-truth record count.
 
 The detector achieves high precision, meaning that most reported
 anomalies correspond to ground-truth anomalous sensor observations.
@@ -245,19 +248,20 @@ than a production-ready anomaly detection system.
 
 ## Detection Results
 
-The final detector produced:
+The final hybrid detector produced **914 sensor-level detections**.
 
-**914 detected anomalies**
+| Detection Reason | Count |
+|---|---:|
+| Missing | 500 |
+| Stuck | 314 |
+| Spike | 100 |
+| Drift | 0 |
+| Impossible | 0 |
+| **Total** | **914** |
 
-Detected anomalies include:
+The detector successfully identifies missing values and several spike and stuck-sensor patterns.
 
-- Missing
-- Spike
-- Stuck
-
-The current detector does not successfully detect every injected
-anomaly type. In particular, drift and impossible-value cases are not
-represented in the final detected-anomaly output.
+However, the current detector does not successfully identify the injected drift and impossible-value anomalies in the final detection output.
 
 These limitations are retained in the analysis rather than hidden,
 because understanding model failure modes is an important part of
@@ -469,9 +473,11 @@ reliable sources of truth.
 The final detector has high precision but moderate recall:
 
 - Precision: 98.58%
-- Recall: 53.31%
+- Recall: 53.35%
 
-It should therefore not be interpreted as a production-ready detector.
+This indicates that the detector is conservative: false alarms are relatively rare, but a significant portion of true anomalies remain undetected.
+
+Performance also varies substantially across sensors, with particularly weak performance for the injected airspeed drift pattern.
 
 ### Anomaly Coverage
 
@@ -533,3 +539,17 @@ Power BI
 The main objective is to demonstrate how raw sensor measurements can be
 transformed into analytical insights while making both model performance
 and model limitations visible.
+
+## Key Findings
+
+The final analysis produced several important findings:
+
+- The detector achieved **98.58% precision**, indicating a low false-positive rate.
+- Overall recall was **53.35%**, showing that many true anomaly points remain undetected.
+- Temperature achieved **100% recall and 100% precision**.
+- CO2 achieved **95% recall and 97.44% F1**.
+- Humidity achieved **55.78% recall and 70.98% F1**.
+- The detector failed to identify the injected airspeed drift anomaly pattern.
+- No final detections were classified as `impossible`.
+- Sensor-specific evaluation revealed substantially different detection behavior across sensors.
+- The results demonstrate that a single aggregate metric is insufficient for evaluating an IoT anomaly detection system.
