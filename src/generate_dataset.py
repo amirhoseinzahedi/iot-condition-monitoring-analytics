@@ -170,12 +170,6 @@ def inject_anomalies(data):
 
     # 3. Stuck humidity sensor
     for _ in range(5):
-        # device = rng.choice(data["device_id"].unique())
-        # start = rng.integers(0, len(data) - 120)
-
-        # device_indices = data.index[data["device_id"] == device]
-
-        # selected_indices = device_indices[start : start + 120]
         device = rng.choice(data["device_id"].unique())
 
         device_indices = data.index[data["device_id"] == device]
@@ -186,7 +180,7 @@ def inject_anomalies(data):
         )
 
         selected_indices = device_indices[start : start + 120]
-        # /////////////////////////////////////////////////////////////
+
         stuck_value = data.loc[selected_indices[0], "humidity"]
 
         data.loc[selected_indices, "humidity"] = stuck_value
